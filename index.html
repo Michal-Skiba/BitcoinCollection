@@ -4,38 +4,41 @@
     <meta charset="UTF-8">
     <title>Bitcoin project</title>
     <link rel="stylesheet" href="css/style.css">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
+
 <div id="login_div">
     <img src="./images/bitcoinGold.png">
     <input type="email" placeholder="email" id="user_email">
     <input type="password" placeholder="password" id="user_password">
     <button id="login" onclick="login()">Login</button>
 </div>
+
 <div id="admin_div">
-    Admin
+    <h2>Lista użytkowników</h2>
+    <table id="users_list">
+        <tr>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Email</th>
+            <th>Kwota(PLN)</th>
+            <th>Kwota(Btn)</th>
+        </tr>
+    </table>
+    <p class="btnValue">0</p>
+    <p id="444">44444</p>
+
     <button class="logout" onclick="logout()">Logout</button>
 </div>
 <div id="user_div">
     USER
+    <p class="btnValue"></p>
     <button class="logout" onclick="logout()">Logout</button>
 </div>
 
 
 <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
-<script>
-    // Initialize Firebase
-    var config = {
-        apiKey: "AIzaSyBMeE9L3GMAW0BOiDcB0w0J-NW99rl8dIM",
-        authDomain: "kmk-zadanie.firebaseapp.com",
-        databaseURL: "https://kmk-zadanie.firebaseio.com",
-        projectId: "kmk-zadanie",
-        storageBucket: "",
-        messagingSenderId: "850398923448"
-    };
-    firebase.initializeApp(config);
-</script>
 </body>
 <script src="js/app.js"></script>
 </html>

@@ -1,9 +1,37 @@
+
+
+function loadApi(){
+    $.ajax({
+        url: 'https://blockchain.info/pl/ticker'
+    })
+        .done((response)=>{
+            if(response.PLN.buy >= 0) {
+                $('.btnValue').text(response.PLN.buy);
+                fillTable(response.PLN.buy);
+            }
+        })
+        .fail((error)=>{
+            console.log(error);
+        });
+}
+loadApi();
+// Initialize Firebase
+
+let config = {
+    apiKey: "AIzaSyBMeE9L3GMAW0BOiDcB0w0J-NW99rl8dIM",
+    authDomain: "kmk-zadanie.firebaseapp.com",
+    databaseURL: "https://kmk-zadanie.firebaseio.com",
+    projectId: "kmk-zadanie",
+    storageBucket: "",
+    messagingSenderId: "850398923448"
+};
+
+
+firebase.initializeApp(config);
+
 firebase.auth().onAuthStateChanged((user)=> {
     if (user) {
-        console.log(user.uid);
-        if(user.uid === "IjfRrblGsZhxzrsM11Lr1TzQ5l73")
-        {
-            console.log("admin");
+        if(user.uid === "IjfRrblGsZhxzrsM11Lr1TzQ5l73"){
             document.getElementById('admin_div').style.display = "block";
             document.getElementById('login_div').style.display = "none";
             document.getElementById('user_div').style.display = "none";
@@ -12,10 +40,10 @@ firebase.auth().onAuthStateChanged((user)=> {
             document.getElementById('login_div').style.display = "none";
             document.getElementById('admin_div').style.display = "none";
         }
-    } else {
-        document.getElementById('login_div').style.display = "flex";
-        document.getElementById('admin_div').style.display = "none";
-        document.getElementById('user_div').style.display = "none";
+    }else{
+    document.getElementById('login_div').style.display = "flex";
+    document.getElementById('admin_div').style.display = "none";
+    document.getElementById('user_div').style.display = "none";
     }
 });
 
@@ -33,3 +61,43 @@ let login =()=> {
 let logout = ()=>{
     firebase.auth().signOut();
 };
+
+
+let NumOfUsersRef = firebase.database().ref().child('NumOfUsers');
+fillTable = (valueBtn)=> {
+    NumOfUsersRef.on('value', (data) => {
+        let usersList = document.getElementById('users_list');
+        console.log(data.val());
+        let NumberOfUsers = data.val();
+        for (let i = 1; i <= NumberOfUsers; i++) {
+            let usersRef = firebase.database().ref().child('Users');
+            let userNumber = usersRef.child(`${i}`);
+            let userEmail = userNumber.child('email');
+            let userMoney = userNumber.child('money');
+            let userName = userNumber.child('name');
+            let userSurname = userNumber.child('surname');
+            let tr = document.createElement('tr');
+            userName.on('value', (data) => {
+                let value = (data.val());
+                tr.insertAdjacentHTML('beforeend', ('<td>' + `${value}` + '</td>'))
+            });
+            userSurname.on('value', (data) => {
+                let value = (data.val());
+                tr.insertAdjacentHTML('beforeend', ('<td>' + `${value}` + '</td>'))
+            });
+            userEmail.on('value', (data) => {
+                let value = (data.val());
+                tr.insertAdjacentHTML('beforeend', ('<td>' + `${value}` + '</td>'));
+            });
+            userMoney.on('value', (data) => {
+                let value = (data.val());
+                let btnExchange = value/valueBtn;
+                tr.insertAdjacentHTML('beforeend', ('<td>' + `${value}` + '</td>'));
+                tr.insertAdjacentHTML('beforeend', ('<td>' + `${btnExchange}` + '</td>'))
+            });
+            usersList.appendChild(tr);
+        }
+    });
+};
+
+

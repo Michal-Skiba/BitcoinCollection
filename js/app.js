@@ -1,5 +1,3 @@
-
-
 function loadApi(){
     $.ajax({
         url: 'https://blockchain.info/pl/ticker'
@@ -47,6 +45,8 @@ firebase.auth().onAuthStateChanged((user)=> {
     }
 });
 
+let firebaseRef = firebase.database().ref();
+
 let login =()=> {
     let userEmail = document.getElementById('user_email').value;
     let userPassword = document.getElementById('user_password').value;
@@ -63,11 +63,64 @@ let logout = ()=>{
 };
 
 
-let NumOfUsersRef = firebase.database().ref().child('NumOfUsers');
+let numberOfUsers = document.getElementById('numberOfUsers');
+
+let query = firebase.database().ref("Users").orderByKey();
 fillTable = (valueBtn)=> {
-    NumOfUsersRef.on('value', (data) => {
+    query.once("value")
+    .then((snapshot) =>{
+        snapshot.forEach((childSnapshot) =>{
+            let usersList = document.getElementById('users_list');
+            let childData = childSnapshot.val();
+            let tr = document.createElement('tr');
+            let btcValue = (childData.money/valueBtn).toFixed(8);
+            numberOfUsers.innerText++;
+            tr.insertAdjacentHTML('beforeend', ('<td>' + `${childData.name}` + '</td>'));
+            tr.insertAdjacentHTML('beforeend', ('<td>' + `${childData.surname}` + '</td>'));
+            tr.insertAdjacentHTML('beforeend', ('<td>' + `${childData.email}` + '</td>'));
+            tr.insertAdjacentHTML('beforeend', ('<td>' + `${childData.money}` + '</td>'));
+            if(childData.money === 0){
+                tr.insertAdjacentHTML('beforeend', ('<td>' + 0 + '</td>'))   ;
+            }else{
+                tr.insertAdjacentHTML('beforeend', ('<td>' + `${btcValue}` + '</td>'));
+            }
+            usersList.appendChild(tr);
+        });
+    });
+};
+
+
+let register = () => {
+    let userEmail = document.getElementById('user_email_reg').value;
+    let userPassword = document.getElementById('user_password_reg').value;
+    let userName = document.getElementById('user_name_reg').value;
+    let userSurname = document.getElementById('user_surname_reg').value;
+    let userID = userEmail.replace("@", "").replace(".", "");
+    console.log(userID);
+
+    firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword).catch(function(error) {
+        console.log("error")
+    });
+    function writeUserData(userID, name, surname, userEmail) {
+        firebase.database().ref('Users/' + userID).set({
+            name: name,
+            surname: surname,
+            money: 0,
+            email: userEmail
+        })
+    }
+    writeUserData(userID, userName, userSurname, userEmail);
+    location.reload();
+};
+
+/*
+
+});
+
+
+fillTable = (valueBtn)=> {
+    numOfUsersRef.on('value', (data) => {
         let usersList = document.getElementById('users_list');
-        console.log(data.val());
         let NumberOfUsers = data.val();
         for (let i = 1; i <= NumberOfUsers; i++) {
             let usersRef = firebase.database().ref().child('Users');
@@ -99,5 +152,4 @@ fillTable = (valueBtn)=> {
         }
     });
 };
-
-
+*/

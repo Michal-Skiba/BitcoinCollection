@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Bitcoin project</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
@@ -16,34 +17,55 @@
 </div>
 
 <div id="admin_div">
-    <h2>Lista użytkowników</h2>
-    <table id="users_list">
-        <tr>
-            <th>Imię</th>
-            <th>Nazwisko</th>
-            <th>Email</th>
-            <th>Kwota(PLN)</th>
-            <th>Kwota(Btn)</th>
-        </tr>
-    </table>
-    <p class="btnValue">0</p>
-    <div id="registration">
-        <input type="email" placeholder="@" id="user_email_reg">
-        <input type="password" placeholder="pas" id="user_password_reg">
-        <input type="text" placeholder="name" id="user_name_reg">
-        <input type="text" placeholder="surname" id="user_surname_reg">
-        <button id="reg" onclick="register()">Login</button>
+    <div id="list">
+        <h2>Lista użytkowników</h2>
+        <table id="users_list">
+            <tr>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Email</th>
+                <th>Kwota(PLN)</th>
+                <th>Kwota(Btn)</th>
+                <th>Logowanie</th>
+            </tr>
+        </table>
+        <button id="refresh" onClick="refresh()">Odśwież listę</button>
     </div>
-    <h3>Liczba użytkowników</h3>
-    <p id="numberOfUsers"></p>
-    <button class="logout" onclick="logout()">Logout</button>
-</div>
-<div id="user_div">
-    USER
-    <p class="btnValue"></p>
-    <button class="logout" onclick="logout()">Logout</button>
+    <div id="info_panel">
+        <div id="info">
+            <p>Liczba użytkowników: <span id="numberOfUsers"></span></p>
+            <p>Aktualny kurs bitcoina: <span class="btnValue">0</span></p>
+            <p>Łączna suma wpłaconych pieniędzy: <span id="allMoney"></span>, jest warte <span id="allBtc"></span> BTC</p>
+            <p>Wpłasciłeś: <span class="user_money"></span> zł, jest to warte: <span class="user_btc"></span> BTC</p>
+        </div>
+        <div id="panel">
+            <div id="registration">
+                <p>Rejstracja użytkownika</p>
+                <input type="email" placeholder="Email" id="user_email_reg">
+                <input type="password" placeholder="Hasło" id="user_password_reg">
+                <input type="text" placeholder="Imię" id="user_name_reg">
+                <input type="text" placeholder="Nazwisko" id="user_surname_reg">
+                <button id="reg" onclick="register()">Zarejstruj</button>
+            </div>
+            <div id="addUserCash">
+                <p>Dodaj użytkownikówi gotówki</p>
+                <input type="email" placeholder="email" id="userMail">
+                <input type="number" placeholder="wartość" id="value">
+                <button onclick="addUserMoney('+')">Dodaj</button>
+                <button onclick="addUserMoney('-')">Odejmij</button>
+            </div>
+        </div>
+        <button id="admin_logout" class="logout" onclick="logout()">Logout</button>
+    </div>
 </div>
 
+<div id="user_div">
+    <p>Jesteś zalogowany jako: <span id="name"></span> <span id="surname"></span></p>
+    <p>Aktualny kurs bitcoina: <span class="btnValue"></span></p>
+    <p>Wpłasciłeś: <span class="user_money"></span>zł, jest to warte <span class="user_btc"></span>btc</p>
+    <button class="logout" onclick="logout()">Wyloguj</button>
+    <button id="del_acc" onclick="DelConfirm()">Usuń konto</button>
+</div>
 
 <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
 </body>

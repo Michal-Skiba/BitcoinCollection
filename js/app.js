@@ -121,7 +121,7 @@ let addListener = ()=> {
 };
 
 let register = () => {
-    let userEmail = document.getElementById('user_email_reg').value;
+    let userEmail = document.getElementById('user_email_reg').value.toLowerCase();
     let userPassword = document.getElementById('user_password_reg').value;
     let userName = document.getElementById('user_name_reg').value;
     let userSurname = document.getElementById('user_surname_reg').value;

@@ -77,8 +77,8 @@
 #users_list{
   background: lightblue;
   border-collapse: collapse;
-  width: 80%;
-  font-size: 20px;
+  width: 35%;
+  font-size: 18px;
   color: black;
   margin-left: 0
 }
@@ -108,9 +108,7 @@
   margin-top: 10px;
 }
 
-.logout{
 
-}
 /*Right side*/
 /*Info*/
 
@@ -130,7 +128,8 @@
 }
 
 #info{
-  font-size: 20px;
+  font-size: 18px;
+  margin-left: 10px;
 }
 
 /*Admin panel*/
@@ -154,8 +153,8 @@
 }
 
 #panel input{
-  height: 40px;
-  font-size: 34px;
+  height: 25px;
+  font-size: 20px;
   width: 100%;
 }
 
@@ -164,8 +163,8 @@
 }
 
 #panel p{
-  margin-top: 40px;
-  font-size: 36px;
+  margin-top: 30px;
+  font-size: 26px;
   text-align: center;
 }
 
